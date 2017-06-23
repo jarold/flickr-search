@@ -5,7 +5,7 @@ function CardGrid (props) {
     <ul className="card-grid">
       {props.results.map((result) => {
         return (
-          <li className="card">
+          <li className="card" key={result.link}>
             <img src={result.media.m} />
           </li>
         )
