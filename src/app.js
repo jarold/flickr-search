@@ -12,7 +12,7 @@ class Container extends React.Component {
     this.state = {
       results: [],
       term: '',
-    }
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,11 +27,11 @@ class Container extends React.Component {
     const API = `http://api.flickr.com/services/feeds/photos_public.gne?tags=${term}&format=json`;
     let results = [];
 
-    jsonp(API, 
-      {param: "jsoncallback"},
+    jsonp(API,
+      { param: 'jsoncallback' },
       (err, data) => {
         results = data.items;
-        this.setState({ results: results });    
+        this.setState({ results });
       });
   }
   handleChange(event) {
@@ -45,22 +45,22 @@ class Container extends React.Component {
   }
 
   render() {
-    return(
-        <div className="container">
-          <form onSubmit={this.handleSubmit}>
-            <input
-              type="text"
-              placeholder="tag"
-              value={this.state.term}
-              onChange={this.handleChange}
-            />
-            <input type="submit" value="Search" onSubmit={this.handleSubmit} />
-          </form>
+    return (
+      <div className="container">
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="text"
+            placeholder="tag"
+            value={this.state.term}
+            onChange={this.handleChange}
+          />
+          <input type="submit" value="Search" onSubmit={this.handleSubmit} />
+        </form>
 
-          {!this.state.results
-            ? <p>Loading...</p>
-            : <CardGrid results={this.state.results} />}
-        </div>
+        {!this.state.results
+          ? <p>Loading...</p>
+          : <CardGrid results={this.state.results} />}
+      </div>
     );
   }
 }
