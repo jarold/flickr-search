@@ -1,20 +1,17 @@
-import React, { PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { newSearch } from '../actions/searchActions';
-const jsonp = require('jsonp');
-const CardGrid = require('./CardGrid');
+import CardGrid from './CardGrid';
+import jsonp from 'jsonp';
 
-class App extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       searchTerm: '',
-      results: []
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -31,12 +28,13 @@ class App extends React.Component {
       this.setState({ results });
     });
   }
-  handleChange(event) {
+
+  handleChange = (event) => {
     const value = event.target.value;
     this.setState(() => ({ searchTerm: value }));
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     this.props.newSearch(this.state.searchTerm);
     this.fetchAPI();
@@ -69,11 +67,11 @@ App.propTypes = {
   newSearch: PropTypes.func.isRequired
 };
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
     searchTerms: state.search
   };
-}
+};
 
 const mapDispatchToProps = dispatch => {
   return {
