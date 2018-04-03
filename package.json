@@ -12,7 +12,8 @@
   "babel": {
     "presets": [
       "env",
-      "react"
+      "react",
+      "stage-2"
     ]
   },
   "dependencies": {
@@ -21,7 +22,8 @@
     "react": "^16.3.0",
     "react-dom": "^16.3.0",
     "react-redux": "^5.0.6",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
@@ -29,6 +31,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.2.2",
     "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.0",
     "html-webpack-plugin": "^2.28.0",
     "style-loader": "^0.16.1",

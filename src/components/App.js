@@ -1,44 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { newSearch } from '../actions/searchActions';
+import * as actions from '../actions/';
 import CardGrid from './CardGrid';
-import jsonp from 'jsonp';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      searchTerm: '',
-    };
-  }
-
   componentDidMount() {
-    this.fetchAPI();
+    this.props.fetchResults('dog');
   }
 
-  fetchAPI() {
-    const term = this.state.searchTerm;
-    const API = `http://api.flickr.com/services/feeds/photos_public.gne?tags=${term}&format=json`;
-    let results = [];
-
-    jsonp(API, { param: 'jsoncallback' }, (err, data) => {
-      results = data.items;
-      this.setState({ results });
-    });
-  }
-
-  handleChange = (event) => {
+  handleChange = event => {
     const value = event.target.value;
-    this.setState(() => ({ searchTerm: value }));
-  }
+    this.props.updateInput(value);
+  };
 
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault();
-    this.props.newSearch(this.state.searchTerm);
-    this.fetchAPI();
-  }
+    const searchTerm = this.props.textInput;
+    this.props.fetchResults(searchTerm);
+  };
 
   render() {
     return (
@@ -47,35 +27,33 @@ class App extends Component {
           <input
             type="text"
             placeholder="tag"
-            value={this.state.searchTerm}
+            value={this.props.textInput}
             onChange={this.handleChange}
           />
-          <input type="submit" value="Search" onSubmit={this.handleSubmit} />
+          <input type="submit" value="Search" />
         </form>
 
-        {!this.state.results ? (
+        {!this.props.results ? (
           <p>Loading...</p>
         ) : (
-          <CardGrid results={this.state.results} />
+          <CardGrid results={this.props.results} />
         )}
       </div>
     );
   }
 }
 
-App.propTypes = {
-  newSearch: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => {
   return {
-    searchTerms: state.search
+    textInput: state.search.textInput,
+    results: state.search.results
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    newSearch: term => dispatch(newSearch(term))
+    updateInput: input => dispatch(actions.updateInput(input)),
+    fetchResults: input => dispatch(actions.fetchResults(input))
   };
 };
 
